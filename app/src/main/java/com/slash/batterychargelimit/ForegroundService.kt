@@ -15,6 +15,7 @@ import com.slash.batterychargelimit.Constants.NOTIF_MAINTAIN
 import com.slash.batterychargelimit.Constants.SETTINGS
 import com.slash.batterychargelimit.activities.MainActivity
 import com.slash.batterychargelimit.receivers.BatteryReceiver
+import com.slash.batterychargelimit.receivers.ServiceReceiver
 import com.slash.batterychargelimit.settings.PrefsFragment
 
 
@@ -49,8 +50,8 @@ class ForegroundService : Service() {
         settings.edit().putBoolean(NOTIFICATION_LIVE, true).apply()
 
         val notification = mNotifyBuilder
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setCategory(NotificationCompat.CATEGORY_SYSTEM)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setOngoing(true)
                 .setContentTitle(getString(R.string.please_wait))
                 .setContentInfo(getString(R.string.please_wait))
@@ -76,7 +77,8 @@ class ForegroundService : Service() {
         }
         val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntentApp = PendingIntent.getActivity(this, 0, notificationIntent, 0)
-        val pendingIntentDisable = PendingIntent.getBroadcast(this, 0, Intent().setAction(INTENT_DISABLE_ACTION), PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntentDisable = PendingIntent.getBroadcast(this, 0,
+                Intent().setClass(this, ServiceReceiver::class.java).setAction(INTENT_DISABLE_ACTION), PendingIntent.FLAG_UPDATE_CURRENT)
         mNotifyBuilder.addAction(0, actionText, pendingIntentDisable)
                 .addAction(0, getString(R.string.open_app), pendingIntentApp)
     }
