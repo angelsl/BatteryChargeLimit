@@ -41,9 +41,6 @@ object Utils {
     // remember pending state change
     private var changePending: Long = 0
 
-    // remember initialization
-    private var cfInitialized: Boolean = false
-
     /**
      * Inform the BatteryReceiver instance(es) to ignore events for CHARGING_CHANGE_TOLERANCE_MS,
      * in order to let the state change settle.
@@ -81,15 +78,7 @@ object Utils {
             getCtrlDisabledData(context)
         }
 
-        val switchCommands: Array<String>
-        if (cfInitialized) {
-            switchCommands = arrayOf("echo \"$newState\" > $file")
-        } else {
-            cfInitialized = true
-            switchCommands = arrayOf("mount -o rw,remount $file", "chmod u+w $file",
-                    "echo \"$newState\" > $file")
-        }
-
+        val switchCommands = arrayOf("echo \"$newState\" > $file")
         if (alwaysWrite) {
             suShell.addCommand(switchCommands)
         } else {
