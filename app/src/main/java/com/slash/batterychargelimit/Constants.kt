@@ -38,7 +38,7 @@ object Constants {
 
     const val MAX_ALLOWED_LIMIT_PC: Int = 100
     const val DEFAULT_LIMIT_PC: Int = 80
-    const val MIN_ALLOWED_LIMIT_PC: Int = 40
+    const val MIN_ALLOWED_LIMIT_PC: Int = 0
 
     //voltage thresholds in mV, inclusive
     const val DEFAULT_VOLTAGE_FILE = "/sys/class/power_supply/battery/voltage_max"
