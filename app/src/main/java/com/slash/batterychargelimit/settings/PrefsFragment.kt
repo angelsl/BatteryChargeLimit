@@ -55,32 +55,32 @@ class PrefsFragment : PreferenceFragmentCompat() {
 
         setHasOptionsMenu(true)
 
-        val theme: ListPreference = findPreference("theme") as ListPreference
-        val customCtrlFileDataSwitch:SwitchPreference = findPreference("custom_ctrl_file_data") as SwitchPreference
-        val ctrlFilePreference:ControlFilePreference = findPreference("control_file") as ControlFilePreference
-        val ctrlFileSetupPreference:Preference = findPreference("custom_ctrl_file_setup") as Preference
+        val theme: ListPreference? = findPreference("theme")
+        val customCtrlFileDataSwitch:SwitchPreference? = findPreference("custom_ctrl_file_data")
+        val ctrlFilePreference:ControlFilePreference? = findPreference("control_file")
+        val ctrlFileSetupPreference:Preference? = findPreference("custom_ctrl_file_setup")
 
-        theme.setOnPreferenceChangeListener { preference, newValue ->
+        theme!!.setOnPreferenceChangeListener { preference, newValue ->
             if (preference is ListPreference) {
                 activity!!.recreate()
             }
             true
         }
 
-        customCtrlFileDataSwitch.setOnPreferenceChangeListener { _, newValue ->
+        customCtrlFileDataSwitch!!.setOnPreferenceChangeListener { _, newValue ->
             if (newValue as Boolean) {
-                ctrlFilePreference.isEnabled = false
-                ctrlFileSetupPreference.isEnabled = true
+                ctrlFilePreference!!.isEnabled = false
+                ctrlFileSetupPreference!!.isEnabled = true
             } else {
                 if (!newValue) {
-                    ctrlFilePreference.isEnabled = true
-                    ctrlFileSetupPreference.isEnabled = false
+                    ctrlFilePreference!!.isEnabled = true
+                    ctrlFileSetupPreference!!.isEnabled = false
                 }
             }
             true
         }
 
-        ctrlFileSetupPreference.setOnPreferenceClickListener {
+        ctrlFileSetupPreference!!.setOnPreferenceClickListener {
             AlertDialog.Builder(view!!.context)
                     .setTitle(R.string.control_file_alert_title)
                     .setMessage(R.string.control_file_alert_desc)
@@ -93,10 +93,10 @@ class PrefsFragment : PreferenceFragmentCompat() {
         }
 
         if (customCtrlFileDataSwitch.isChecked) {
-            ctrlFilePreference.isEnabled = false
+            ctrlFilePreference!!.isEnabled = false
             ctrlFileSetupPreference.isEnabled = true
         } else {
-            ctrlFilePreference.isEnabled = true
+            ctrlFilePreference!!.isEnabled = true
             ctrlFileSetupPreference.isEnabled = false
         }
     }
