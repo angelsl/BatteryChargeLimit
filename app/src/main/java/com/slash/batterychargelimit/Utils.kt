@@ -79,12 +79,12 @@ object Utils {
         }
 
         val switchCommands = arrayOf("echo \"$newState\" > $file")
+        setChangePending()
         if (alwaysWrite) {
             suShell.addCommand(switchCommands)
         } else {
             suShell.addCommand("cat $file", 0) { _, _, output ->
                 if (output.size == 0 || output[0] != newState) {
-                    setChangePending()
                     suShell.addCommand(switchCommands)
                 }
             }
